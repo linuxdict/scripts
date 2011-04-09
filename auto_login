@@ -1,0 +1,9 @@
+# Sample
+# scripts -c this_file -r hostname
+<assword:
+>password
+# commands to do
+>wget -q -O /tmp/check_cpu_linux.sh 10.240.3.204/scripts/check_cpu_linux.sh
+>wget -q -O /tmp/check_mem-linux.sh 10.240.3.204/scripts/check_mem-linux.sh
+>sudo cp /tmp/check_cpu_linux.sh /apps/nagios/libexec/ && sudo chown nagios.nagios /apps/nagios/libexec/check_cpu_linux.sh &&sudo chmod +x /apps/nagios/libexec/check_cpu_linux.sh
+>sudo cp /tmp/check_mem-linux.sh /apps/nagios/libexec/ && sudo chown nagios.nagios /apps/nagios/libexec/check_mem-linux.sh &&sudo chmod +x /apps/nagios/libexec/check_mem-linux.sh
