@@ -1,1 +1,3 @@
 Useful scripts with Bash Perl Expect etc.
+
+submit_sms_aql: Opsview Notification for China SMS gateway, backup old one and replace with new in /usr/local/nagios/libexec/notifications
