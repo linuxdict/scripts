@@ -1,0 +1,46 @@
+#!/bin/bash
+#
+#
+# Submit the alerts to Wexin
+
+#if ( $opts->{n} && $ENV{NAGIOS_NOTIFICATIONTYPE} eq 'ACKNOWLEDGEMENT' ) {
+#    print 'Not sending acknowledgement', $/;
+#    exit 0;
+#}
+alert="Test Weixin OK"
+
+echo $NAGIOS_SERVICEDESC > /tmp/test.nagios
+
+if [ "x$NAGIOS_SERVICEDESC" != "x" ]; then {
+    alert="$NAGIOS_NOTIFICATIONTYPE: $NAGIOS_SERVICEDESC on $NAGIOS_HOSTNAME is $NAGIOS_SERVICESTATE: $NAGIOS_SERVICEOUTPUT ($NAGIOS_SHORTDATETIME)";
+}
+else {
+    alert="$NAGIOS_NOTIFICATIONTYPE: $NAGIOS_HOSTNAME is $NAGIOS_HOSTSTATE: $NAGIOS_HOSTOUTPUT ($NAGIOS_SHORTDATETIME)";
+}
+fi
+
+# Cleanup text
+
+corpid='xxxxx'
+secret="xxxxxxx"
+ 
+access_token=`curl -k "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$corpid&corpsecret=$secret" 2>/dev/null|awk -F'\"' '{print $4}'`
+echo $access_token
+ 
+txt='''
+{
+   "touser": "@all",
+   "toparty": "@all",
+   "totag": "@all",
+   "msgtype": "text",
+   "agentid": "10",
+   "text": {
+       "content": "'"$alert"'"
+   },
+   "safe":"0"
+}
+'''
+
+curl -XPOST -k https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=$access_token --data "$txt"
+
+echo "Submitted to Wexin";
